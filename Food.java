@@ -1,4 +1,12 @@
 // import statements here
+import java.time.LocalDate;
+
+/*
+ * The following link would help with LocalDate:
+ * https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html
+ * 
+ * Message me (Jacob) if you need help!
+ */
 
 // -----------------------------------------------------------------------------
 /**
@@ -15,7 +23,7 @@ public class Food {
     // ~ Fields ................................................................
     private String name;
     private LocalDate expirationDate;
-    private description string;
+    private String description;
 
     // ~ Constructor ...........................................................
     /**
@@ -39,19 +47,18 @@ public class Food {
     /*
      * Please add javadoc comments for all your methods,
      * even if they are self-explanatory!
-     */
-    /**
+     *
      * For javadoc comments, you can use the following tags
      * 
      * @param parameter
      *            Include parameter explanation
      * @return return value, and explanation if necessary
-     * @throws if
-     *             the method throws an
+     * @throws exceptionName
+     *             if the method throws an exception
      */
 
     public boolean isExpired() {
-
+        
     }
 
 

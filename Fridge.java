@@ -16,34 +16,38 @@ public class Fridge {
     private Food[] foods;
     private int size;
 
-    private static final DEFAULT_SIZE = 10; // feel free to change default size
+    private static final int DEFAULT_SIZE = 10; // feel free to change default
+                                                // size
 
     // ~ Constructor ...........................................................
     /**
      * Constructor, creates a Fridge object
      */
     public Fridge() {
-        
+
     }
 
     // ~ Public Methods ........................................................
 
-
     /*
      * Please add javadoc comments for all your methods,
      * even if they are self-explanatory!
-     */
-    /**
+     *
      * For javadoc comments, you can use the following tags
      * 
      * @param parameter
-     *            Include parameter explanation
+     * Include parameter explanation
+     * 
      * @return return value, and explanation if necessary
-     * @throws if
-     *             the method throws an
+     * 
+     * @throws exceptionName
+     * if the method throws an exception
      */
+
 
     public boolean add(Food CHANGE_PARAMETER_NAME) {
 
     }
+    
+    // the rest of the methods...
 }

@@ -1,10 +1,12 @@
 // import statements here
-package GitHub-Introduction-Files
-
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.format.DateTimeParseException;
 
 // -----------------------------------------------------------------------------
 /**
@@ -24,44 +26,51 @@ public class FridgeBuddy
     // writeFoodFile
     public static void main(String[] args)
     {
-        while(True) {
-        readFoodFile();
-        Scanner scanner = new Scanner(System.in);
-        int validOption = 0;
-        While ( validOption<1 || validOption>5){
-        System.out.println("What do you want to do: ");
-        System.out.println("Option 1, look for a food");
-        System.out.println("Option 2, display all food");
-        System.out.println("Option 3, add a food");
-        System.out.println("Option 4, remove a food");
-        System.out.println("Option 5, display all expired food");
-        System.out.println("Just enter the number of the option you want to choose");
-        String validOption = (int) scanner.nextLine();
+        FridgeBuddy fridgeBuddy = new FridgeBuddy();
+        fridgeBuddy.readFoodFile();
+        while (true)
+        {
+            int validOption = 0;
+            while (validOption < 1 || validOption > 5)
+            {
+                System.out.println("What do you want to do: ");
+                System.out.println("Option 1, look for a food");
+                System.out.println("Option 2, display all food");
+                System.out.println("Option 3, add a food");
+                System.out.println("Option 4, remove a food");
+                System.out.println("Option 5, display all expired food");
+                System.out.println(
+                    "Just enter the number of the option you want to choose");
+                validOption = Integer.parseInt(fridgeBuddy.scanner.nextLine());
+            }
+
+            switch (validOption)
+            {
+                case 1:
+                    fridgeBuddy.searchFood();
+                    break;
+                case 2:
+                    fridgeBuddy.displayFood();
+                    break;
+                case 3:
+                    fridgeBuddy.addFood();
+                    break;
+                case 4:
+                    fridgeBuddy.removeFood();
+                    break;
+                case 5:
+                    fridgeBuddy.printExpiredFood();
+            }
         }
-        
-        switch (validOption) {
-            case 1:
-                searchFood();
-                break;
-            case 2:
-                displayFood();
-                break;
-            case 3:
-                addFood();
-                break;
-            case 4:
-                removeFood();
-                break;
-            case 5:
-                printExpiredFood();
-        }
-      }
+        fridgeBuddy.readFoodFile();
     }
 
     // ~ Fields ................................................................
-    private Fridge myFridge;
-    private static Final String FOOD_FILE;
-    private Scanner scanner;
+    private Fridge myFridge = new Fridge();
+    private static final String FOOD_FILE = "Foods_inside_fridge.csv";
+    private Scanner scanner = new Scanner(System.in);
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
+
 
     // ~ Public Methods ........................................................
 
@@ -83,27 +92,28 @@ public class FridgeBuddy
     public void searchFood()
     {
         System.out.println("What food are you looking for?");
-        String foodname = scanner.nextLine();
+        String desiredFood = scanner.nextLine();
         ArrayList<Food> foods = new ArrayList<>();
         for(Food food : myFridge.toArray()) {
-            if(food.getName() == userFood) {
+            if(food.getName().equals(desiredFood)) {
                 foods.add(food);
             }
         }
-        While(foods.size() ==0){
+        while(foods.size() == 0){
             System.out.println("That foods does not exist, try another");
-            String foodname = scanner.nextLine();
+            desiredFood = scanner.nextLine();
             for(Food food : myFridge.toArray()) {
-                if(food.getName() == userFood) {
+                if(food.getName().equals(desiredFood)) {
                     foods.add(food);
                 }
             }
         }
         System.out.println("All foods with the same name");
-        for(Food food: foods) {
-            System.out.println("\nFood " + (String) i + ":");
+        for(int i =0; i<foods.size(); i++) {
+            Food food = foods.get(i);
+            System.out.println("\nFood " + i + ":");
             System.out.println("Name: "+ food.getName());
-            System.out.println("Expiration: "+ food.getExpirationDate().format(formatter))
+            System.out.println("Expiration: "+ food.getExpirationDate().format(formatter));
             System.out.println("Description: "+ food.getDescription());
         }
     }
@@ -113,9 +123,9 @@ public class FridgeBuddy
     public void displayFood()
     {
         Food[] foods = myFridge.toArray();
-        System.out.println("Here are all the Foods:")
+        System.out.println("Here are all the Foods:");
         for(Food food: foods) {
-            System.out.println("\n"+food.getName() + "will expire on: " + food.getExpirationDate.toLocalDate().toString());
+            System.out.println("\n"+food.getName() + " will expire on: " + food.getExpirationDate().format(formatter));
             System.out.println(food.getDescription());
         }
     }
@@ -125,14 +135,23 @@ public class FridgeBuddy
     // Food object to Fridge
     public void addFood()
     {
-        System.out.println("What should be the name of the food (no spaces)")
+        System.out.println("What should be the name of the food (no spaces)");
         String name = scanner.nextLine();
         while (name.contains(" ")) {
-            System.out.println("Your food name included a space, try again. (Maybe use underscores instead of spaces")
-            String name = scanner.nextLine();
+            System.out.println("Your food name included a space, try again. (Maybe use underscores instead of spaces");
+            name = scanner.nextLine();
         }
-        
-
+        System.out.println("What is the expiration date?");
+        String date = scanner.nextLine();
+        while(!isValidDate(date)) {
+            System.out.println("The date was invalid try again");
+            date = scanner.nextLine();
+        }
+        System.out.println("What is the descriptoion of the food?");
+        String description = scanner.nextLine();
+        LocalDate expirationDate = LocalDate.parse(date, formatter);
+        Food food = new Food(name, expirationDate, description);
+        myFridge.add(food);
     }
 
 
@@ -140,44 +159,44 @@ public class FridgeBuddy
     // name and ask for which one
     public void removeFood()
     {
-        System.println("What is the name of the food you want to remove?");
+        System.out.println("What is the name of the food you want to remove?");
         String userFood = scanner.nextLine();
         ArrayList<Food> foods = new ArrayList<>();
         for(Food food : myFridge.toArray()) {
-            if(food.getName() == userFood) {
+            if(food.getName().equals(userFood)) {
                 foods.add(food);
             }
         }
         while(foods.size()==0) {
             System.out.println("No food appeared with that name try again");
-            String userFood = scanner.nextLine();
+            userFood = scanner.nextLine();
             for(Food food : myFridge.toArray()) {
-                if(food.getName() == userFood) {
+                if(food.getName().equals(userFood)) {
                     foods.add(food);
                 }
             }
         }
         Food chosenFood;
         if(foods.size()>1) {
-            System.out.println("Type the integer option of the food you want to remove")
+            System.out.println("Type the integer option of the food you want to remove");
             int option = -1;
             while(option<0 || option>foods.size()-1) {
-                for(int i = 0; i<foods.size()-1; i++) {
+                for(int i = 0; i<foods.size(); i++) {
                     Food food = foods.get(i);
-                    System.out.println("\nOption " + (String) i + ":");
+                    System.out.println("\nOption " + i + ":");
                     System.out.println("Name: "+ food.getName());
-                    System.out.println("Expiration: "+ food.getExpirationDate().format(formatter))
+                    System.out.println("Expiration: "+ food.getExpirationDate().format(formatter));
                     System.out.println("Description: "+ food.getDescription());
                 }
-                Int option = (int) scanner.nextLine();
+                option = Integer.parseInt(scanner.nextLine());
             }
-            chosenFood = foods.get(i);
+            chosenFood = foods.get(option);
         } else {
             chosenFood = foods.get(0);
         }
         myFridge.remove(chosenFood);
         System.out.println("You have removed: " + chosenFood.getName());
-        System.out.println("With expiration date: " + choseFood.getExpirationDate().format(formatter));
+        System.out.println("With expiration date: " + chosenFood.getExpirationDate().format(formatter));
         System.out.println("And description: " + chosenFood.getDescription());
     }
 
@@ -186,9 +205,9 @@ public class FridgeBuddy
     public void printExpiredFood()
     {
         Food[] expireds = myFridge.getExpiredFood();
-        System.out.println("Here are all the Expired Foods")
+        System.out.println("Here are all the Expired Foods");
         for(Food food: expireds) {
-            System.out.println("\n"+food.getName() + "will expire on: " + food.getExpirationDate.toLocalDate().toString());
+            System.out.println("\n"+food.getName() + " will expire on: " + food.getExpirationDate().format(formatter));
             System.out.println(food.getDescription());
         }
     }
@@ -197,28 +216,29 @@ public class FridgeBuddy
     // Reads a corresponding file and using information contained in to update
     // Fridge object
     public void readFoodFile() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
-        if (!foodfile.exists()) {
-            File foodfile = new File(FOOD_FILE);
+        File foodFile = new File(FOOD_FILE);
+        if (!foodFile.exists()) {
+            foodFile.createNewFile();
             return;
         }
-        Scanner fileScanner = new Scanner(FOOD_FILE)
+        Scanner fileScanner = new Scanner(foodFile);
         while (fileScanner.hasNextLine()) {
-            String line = scanner.nextLine();
+            String line = fileScanner.nextLine();
             String[] data = line.split(",",-1);
             
             
-            if(data[0].strip()=="") {
+            if(data[0].strip().equals("")) {
                 continue;
             }
-            if(!data[1].isValidDate()) {
+            if(!isValidDate(data[1])) {
                 LocalDate date = LocalDate.now();
                 data[1] = date.format(formatter);     
             }
             LocalDate date = LocalDate.parse(data[1], formatter);
-            Food addedFood = new food(data[0],date,data[2]);
+            Food addedFood = new Food(data[0],date,data[2]);
             myFridge.add(addedFood);
         }
+        fileScanner.close();
     }
 
 
@@ -236,16 +256,15 @@ public class FridgeBuddy
         }
 
         writer.close();
-    }
 
     }
 
+    // Checks if a String is a valid date.
     public boolean isValidDate(String date)
     {
         try
         {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
-            LocalDate.parse(input, formatter);
+            LocalDate.parse(date, formatter);
             return true;
         }
         catch (DateTimeParseException e)

@@ -31,22 +31,24 @@ public class FridgeBuddy
         boolean quit = false;
         while (!quit)
         {
-            int validOption = 0;
-            while (validOption < 1 || validOption > 6)
+            String validOption = "";
+            System.out.println("What do you want to do: ");
+            System.out.println("Option 1, look for a food");
+            System.out.println("Option 2, display all food");
+            System.out.println("Option 3, add a food");
+            System.out.println("Option 4, remove a food");
+            System.out.println("Option 5, display all expired food");
+            System.out.println("Option 6, quit the program");
+            System.out.println(
+                "Just enter the number of the option you want to choose");
+            validOption = fridgeBuddy.scanner.nextLine();
+            while (!"123456".contains(validOption) && validOption.length() == 1)
             {
-                System.out.println("What do you want to do: ");
-                System.out.println("Option 1, look for a food");
-                System.out.println("Option 2, display all food");
-                System.out.println("Option 3, add a food");
-                System.out.println("Option 4, remove a food");
-                System.out.println("Option 5, display all expired food");
-                System.out.println("Option 6, quit the program");
-                System.out.println(
-                    "Just enter the number of the option you want to choose");
-                validOption = Integer.parseInt(fridgeBuddy.scanner.nextLine());
+                System.out
+                    .println(validOption + " is not a number between 1 and 6");
+                validOption = fridgeBuddy.scanner.nextLine();
             }
-
-            switch (validOption)
+            switch (Integer.parseInt(validOption))
             {
                 case 1:
                     fridgeBuddy.searchFood();
@@ -65,7 +67,6 @@ public class FridgeBuddy
                     break;
                 case 6:
                     quit = true;
-                    
             }
         }
         fridgeBuddy.writeFoodFile();
@@ -154,8 +155,7 @@ public class FridgeBuddy
         String name = scanner.nextLine();
         while (name.contains(","))
         {
-            System.out.println(
-                "Foods with commas are not allowed");
+            System.out.println("Foods with commas are not allowed");
             name = scanner.nextLine();
         }
         System.out.println("What is the expiration date?");
@@ -167,9 +167,9 @@ public class FridgeBuddy
         }
         System.out.println("What is the description of the food? (no commas)");
         String description = scanner.nextLine();
-        while(description.contains(",")) {
-            System.out.println(
-                "Foods with commas are not allowed");
+        while (description.contains(","))
+        {
+            System.out.println("Foods with commas are not allowed");
             description = scanner.nextLine();
         }
         LocalDate expirationDate = LocalDate.parse(date, formatter);
@@ -194,9 +194,11 @@ public class FridgeBuddy
         }
         while (foods.size() == 0)
         {
-            System.out.println("No food appeared with that name try again. Type \"quit\" to quit.");
+            System.out.println(
+                "No food appeared with that name try again. Type \"quit\" to quit.");
             userFood = scanner.nextLine();
-            if ( userFood.equals("quit")) {
+            if (userFood.equals("quit"))
+            {
                 return;
             }
             for (Food food : myFridge.toArray())
@@ -247,10 +249,12 @@ public class FridgeBuddy
     {
         Food[] expireds = myFridge.getExpiredFood();
         System.out.println("Here are all the Expired Foods");
-        for(Food food: expireds) {
-        System.out.println("\n"+food.getName() + " will expire on: " +
-        food.getExpirationDate().format(formatter));
-        System.out.println(food.getDescription());
+        for (Food food : expireds)
+        {
+            System.out.println(
+                "\n" + food.getName() + " will expire on: "
+                    + food.getExpirationDate().format(formatter));
+            System.out.println(food.getDescription());
         }
 
     }

@@ -1,13 +1,10 @@
 // import statements here
-package GitHub-Introduction-Files
 
 import java.util.Scanner;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.time.format.DateTimeParseException;
 
 // -----------------------------------------------------------------------------
@@ -26,7 +23,7 @@ public class FridgeBuddy
     // Calls readFoodFile then loop that asks what the user wants to do and
     // calls the corresponding FridgeBuddy method, once exits loop calls
     // writeFoodFile
-    public static void main(String[] args)
+    public static void main(String[] args) 
     {
         FridgeBuddy fridgeBuddy = new FridgeBuddy();
         fridgeBuddy.readFoodFile();
@@ -64,7 +61,7 @@ public class FridgeBuddy
                     fridgeBuddy.printExpiredFood();
             }
         }
-        fridgeBuddy.readFoodFile();
+        //fridgeBuddy.readFoodFile();
     }
 
     // ~ Fields ................................................................
@@ -206,24 +203,44 @@ public class FridgeBuddy
     // Prints to the terminal all of the expired food
     public void printExpiredFood()
     {
-        Food[] expireds = myFridge.getExpiredFood();
-        System.out.println("Here are all the Expired Foods");
-        for(Food food: expireds) {
-            System.out.println("\n"+food.getName() + " will expire on: " + food.getExpirationDate().format(formatter));
-            System.out.println(food.getDescription());
-        }
+        return;
+        //Food[] expireds = myFridge.getExpiredFood();
+       // System.out.println("Here are all the Expired Foods");
+        //for(Food food: expireds) {
+        //    System.out.println("\n"+food.getName() + " will expire on: " + food.getExpirationDate().format(formatter));
+        //    System.out.println(food.getDescription());
+        //}
+        
     }
 
 
     // Reads a corresponding file and using information contained in to update
     // Fridge object
-    public void readFoodFile() {
+    public void readFoodFile()  {
         File foodFile = new File(FOOD_FILE);
         if (!foodFile.exists()) {
-            foodFile.createNewFile();
+            try
+            {
+                foodFile.createNewFile();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             return;
         }
-        Scanner fileScanner = new Scanner(foodFile);
+        Scanner fileScanner;
+        try
+        {
+            fileScanner = new Scanner(foodFile);
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
         while (fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine();
             String[] data = line.split(",",-1);
@@ -248,7 +265,17 @@ public class FridgeBuddy
     public void writeFoodFile()
     {
         Food[] foods = myFridge.toArray();
-        PrintWriter writer = new PrintWriter(new FileWriter(FOOD_FILE, false));
+        PrintWriter writer;
+        try
+        {
+            writer = new PrintWriter(new FileWriter(FOOD_FILE, false));
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
         for (Food food : foods)
         {
             String[] data =

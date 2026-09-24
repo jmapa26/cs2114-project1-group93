@@ -65,9 +65,10 @@ public class FridgeBuddy
                     break;
                 case 6:
                     quit = true;
+                    
             }
         }
-        // fridgeBuddy.readFoodFile();
+        fridgeBuddy.writeFoodFile();
     }
 
     // ~ Fields ................................................................

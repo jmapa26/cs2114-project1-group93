@@ -32,7 +32,7 @@ public class FridgeBuddy
         while (!quit)
         {
             int validOption = 0;
-            while (validOption < 1 || validOption > 5)
+            while (validOption < 1 || validOption > 6)
             {
                 System.out.println("What do you want to do: ");
                 System.out.println("Option 1, look for a food");
@@ -149,12 +149,12 @@ public class FridgeBuddy
     // Food object to Fridge
     public void addFood()
     {
-        System.out.println("What should be the name of the food (no spaces)");
+        System.out.println("What should be the name of the food (no commas)");
         String name = scanner.nextLine();
-        while (name.contains(" "))
+        while (name.contains(","))
         {
             System.out.println(
-                "Your food name included a space, try again. (Maybe use underscores instead of spaces");
+                "Foods with commas are not allowed");
             name = scanner.nextLine();
         }
         System.out.println("What is the expiration date?");
@@ -188,8 +188,11 @@ public class FridgeBuddy
         }
         while (foods.size() == 0)
         {
-            System.out.println("No food appeared with that name try again");
+            System.out.println("No food appeared with that name try again. Type \"quit\" to quit.");
             userFood = scanner.nextLine();
+            if ( userFood.equals("quit")) {
+                return;
+            }
             for (Food food : myFridge.toArray())
             {
                 if (food.getName().equals(userFood))
@@ -236,14 +239,13 @@ public class FridgeBuddy
     // Prints to the terminal all of the expired food
     public void printExpiredFood()
     {
-        return;
-        // Food[] expireds = myFridge.getExpiredFood();
-        // System.out.println("Here are all the Expired Foods");
-        // for(Food food: expireds) {
-        // System.out.println("\n"+food.getName() + " will expire on: " +
-        // food.getExpirationDate().format(formatter));
-        // System.out.println(food.getDescription());
-        // }
+        Food[] expireds = myFridge.getExpiredFood();
+        System.out.println("Here are all the Expired Foods");
+        for(Food food: expireds) {
+        System.out.println("\n"+food.getName() + " will expire on: " +
+        food.getExpirationDate().format(formatter));
+        System.out.println(food.getDescription());
+        }
 
     }
 

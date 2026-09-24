@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 
 // -----------------------------------------------------------------------------
 /**
@@ -18,18 +17,21 @@ import java.time.format.ResolverStyle;
  * @version Sep 24, 2026
  */
 
-public class FridgeBuddy {
+public class FridgeBuddy
+{
 
     /**
-     * Calls readFoodFile then loop that asks what the user wants to do and
-     * calls the corresponding FridgeBuddy method, once exits loop calls
-     * writeFoodFile
+     *  Calls readFoodFile then loop that asks what the user wants to do and
+     *  calls the corresponding FridgeBuddy method, once exits loop calls
+     *  writeFoodFile
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         FridgeBuddy fridgeBuddy = new FridgeBuddy();
         fridgeBuddy.readFoodFile();
         boolean quit = false;
-        while (!quit) {
+        while (!quit)
+        {
             String validOption = "";
             System.out.println("What do you want to do: ");
             System.out.println("Option 1, look for a food");
@@ -41,13 +43,14 @@ public class FridgeBuddy {
             System.out.println(
                 "Just enter the number of the option you want to choose");
             validOption = fridgeBuddy.scanner.nextLine();
-            while (validOption.length() != 1 || !"123456".contains(
-                validOption)) {
-                System.out.println(validOption
-                    + " is not a number between 1 and 6");
+            while (validOption.length() != 1 || !"123456".contains(validOption))
+            {
+                System.out
+                    .println(validOption + " is not a number between 1 and 6");
                 validOption = fridgeBuddy.scanner.nextLine();
             }
-            switch (Integer.parseInt(validOption)) {
+            switch (Integer.parseInt(validOption))
+            {
                 case 1:
                     fridgeBuddy.searchFood();
                     break;
@@ -74,43 +77,49 @@ public class FridgeBuddy {
     private Fridge myFridge = new Fridge();
     private static final String FOOD_FILE = "Foods_inside_fridge.csv";
     private Scanner scanner = new Scanner(System.in);
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/uu")
-        .withResolverStyle(ResolverStyle.STRICT);
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
 
     /**
-     * Prints to the terminal asking what food the user wants to look for and
-     * tells
+     * Prints to the terminal asking what food the user wants to look for and tells
      * the user if it available
      */
-    public void searchFood() {
+    public void searchFood()
+    {
         System.out.println("What food are you looking for?");
         String desiredFood = scanner.nextLine();
         ArrayList<Food> foods = new ArrayList<>();
-        for (Food food : myFridge.toArray()) {
-            if (food.getName().equals(desiredFood)) {
+        for (Food food : myFridge.toArray())
+        {
+            if (food.getName().equals(desiredFood))
+            {
                 foods.add(food);
             }
         }
-        while (foods.size() == 0) {
+        while (foods.size() == 0)
+        {
             System.out.println(
                 "That foods does not exist, try another. Type \"quit\" to quit");
             desiredFood = scanner.nextLine();
-            if (desiredFood.equals("quit")) {
+            if (desiredFood.equals("quit"))
+            {
                 return;
             }
-            for (Food food : myFridge.toArray()) {
-                if (food.getName().equals(desiredFood)) {
+            for (Food food : myFridge.toArray())
+            {
+                if (food.getName().equals(desiredFood))
+                {
                     foods.add(food);
                 }
             }
         }
         System.out.println("All foods with the same name");
-        for (int i = 0; i < foods.size(); i++) {
+        for (int i = 0; i < foods.size(); i++)
+        {
             Food food = foods.get(i);
             System.out.println("\nFood " + i + ":");
             System.out.println("Name: " + food.getName());
-            System.out.println("Expiration: " + food.getExpirationDate().format(
-                formatter));
+            System.out.println(
+                "Expiration: " + food.getExpirationDate().format(formatter));
             System.out.println("Description: " + food.getDescription());
         }
     }
@@ -119,38 +128,44 @@ public class FridgeBuddy {
     /**
      * Prints to the terminal all the foods in the fridge in a pleasing format
      */
-    public void displayFood() {
+    public void displayFood()
+    {
         Food[] foods = myFridge.toArray();
         System.out.println("Here are all the Foods:");
-        for (Food food : foods) {
-            System.out.println("\n" + food.getName() + " will expire on: "
-                + food.getExpirationDate().format(formatter));
+        for (Food food : foods)
+        {
+            System.out.println(
+                "\n" + food.getName() + " will expire on: "
+                    + food.getExpirationDate().format(formatter));
             System.out.println(food.getDescription());
         }
     }
 
 
-    /**
-     * Ask users for name, description, and expiration and adds a corresponding
-     * Food object to Fridge. None of the fields can contain commas.
-     */
-    public void addFood() {
+    /** Ask users for name, description, and expiration and adds a corresponding
+    * Food object to Fridge. None of the fields can contain commas.
+    */
+    public void addFood()
+    {
         System.out.println("What should be the name of the food (no commas)");
         String name = scanner.nextLine();
-        while (name.contains(",") || name.equals("")) {
+        while (name.contains(",") || name.isBlank())
+        {
             System.out.println("Names with commas are not allowed");
             name = scanner.nextLine();
         }
         System.out.println("What is the expiration date?");
         String date = scanner.nextLine();
-        while (!isValidDate(date)) {
+        while (!isValidDate(date))
+        {
             System.out.println(
                 "The date was invalid try again. Dates should be written like 1/1/01");
             date = scanner.nextLine();
         }
         System.out.println("What is the description of the food? (no commas)");
         String description = scanner.nextLine();
-        while (description.contains(",")) {
+        while (description.contains(","))
+        {
             System.out.println("Descriptions with commas are not allowed");
             description = scanner.nextLine();
         }
@@ -160,115 +175,139 @@ public class FridgeBuddy {
     }
 
 
-    /**
-     * Asks user for name of food to remove,displays all of the food with same
+    /** Asks user for name of food to remove,displays all of the food with same
      * name and ask for which one
-     */
-    public void removeFood() {
+    */
+    public void removeFood()
+    {
         System.out.println("What is the name of the food you want to remove?");
         String userFood = scanner.nextLine();
         ArrayList<Food> foods = new ArrayList<>();
-        for (Food food : myFridge.toArray()) {
-            if (food.getName().equals(userFood)) {
+        for (Food food : myFridge.toArray())
+        {
+            if (food.getName().equals(userFood))
+            {
                 foods.add(food);
             }
         }
-        while (foods.size() == 0) {
+        while (foods.size() == 0)
+        {
             System.out.println(
                 "No food appeared with that name try again. Type \"quit\" to quit.");
             userFood = scanner.nextLine();
-            if (userFood.equals("quit")) {
+            if (userFood.equals("quit"))
+            {
                 return;
             }
-            for (Food food : myFridge.toArray()) {
-                if (food.getName().equals(userFood)) {
+            for (Food food : myFridge.toArray())
+            {
+                if (food.getName().equals(userFood))
+                {
                     foods.add(food);
                 }
             }
         }
         Food chosenFood;
-        if (foods.size() > 1) {
+        if (foods.size() > 1)
+        {
             System.out.println(
                 "Type the integer option of the food you want to remove");
             int option = -1;
-            while (option < 0 || option > foods.size() - 1) {
-                for (int i = 0; i < foods.size(); i++) {
+            while (option < 0 || option > foods.size() - 1)
+            {
+                for (int i = 0; i < foods.size(); i++)
+                {
                     Food food = foods.get(i);
                     System.out.println("\nOption " + i + ":");
                     System.out.println("Name: " + food.getName());
-                    System.out.println("Expiration: " + food.getExpirationDate()
-                        .format(formatter));
+                    System.out.println(
+                        "Expiration: "
+                            + food.getExpirationDate().format(formatter));
                     System.out.println("Description: " + food.getDescription());
                 }
-                try {
+                try
+                {
                     option = Integer.parseInt(scanner.nextLine());
                 }
-                catch (NumberFormatException e) {
+                catch (NumberFormatException e)
+                {
                     continue;
                 }
 
             }
             chosenFood = foods.get(option);
         }
-        else {
+        else
+        {
             chosenFood = foods.get(0);
         }
         myFridge.remove(chosenFood);
         System.out.println("You have removed: " + chosenFood.getName());
-        System.out.println("With expiration date: " + chosenFood
-            .getExpirationDate().format(formatter));
+        System.out.println(
+            "With expiration date: "
+                + chosenFood.getExpirationDate().format(formatter));
         System.out.println("And description: " + chosenFood.getDescription());
     }
 
 
-    /**
-     * Prints to the terminal all of the expired food
+    /** Prints to the terminal all of the expired food
      */
-    public void printExpiredFood() {
+    public void printExpiredFood()
+    {
         Food[] expireds = myFridge.getExpiredFood();
         System.out.println("Here are all the Expired Foods");
-        for (Food food : expireds) {
-            System.out.println("\n" + food.getName() + " will expire on: "
-                + food.getExpirationDate().format(formatter));
+        for (Food food : expireds)
+        {
+            System.out.println(
+                "\n" + food.getName() + " will expire on: "
+                    + food.getExpirationDate().format(formatter));
             System.out.println(food.getDescription());
         }
 
     }
 
 
-    /**
-     * Reads a corresponding file and using information contained in to update
+    /** Reads a corresponding file and using information contained in to update
      * Fridge object
-     */
-    public void readFoodFile() {
+    */ 
+    public void readFoodFile()
+    {
         File foodFile = new File(FOOD_FILE);
-        if (!foodFile.exists()) {
-            try {
+        if (!foodFile.exists())
+        {
+            try
+            {
                 foodFile.createNewFile();
             }
-            catch (IOException e) {
+            catch (IOException e)
+            {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return;
         }
         Scanner fileScanner;
-        try {
+        try
+        {
             fileScanner = new Scanner(foodFile);
         }
-        catch (FileNotFoundException e) {
+        catch (FileNotFoundException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         }
-        while (fileScanner.hasNextLine()) {
+        while (fileScanner.hasNextLine())
+        {
             String line = fileScanner.nextLine();
             String[] data = line.split(",", -1);
 
-            if (data[0].equals("")) {
+            if (data[0].strip().equals(""))
+            {
                 continue;
             }
-            if (!isValidDate(data[1])) {
+            if (!isValidDate(data[1]))
+            {
                 LocalDate date = LocalDate.now();
                 data[1] = date.format(formatter);
             }
@@ -283,20 +322,25 @@ public class FridgeBuddy {
     /**
      * Uses information in Fridge and updates corresponding foodfile
      */
-    public void writeFoodFile() {
+    public void writeFoodFile()
+    {
         Food[] foods = myFridge.toArray();
         PrintWriter writer;
-        try {
+        try
+        {
             writer = new PrintWriter(new FileWriter(FOOD_FILE, false));
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         }
-        for (Food food : foods) {
-            String[] data = { food.getName(), food.getExpirationDate().format(
-                formatter), food.getDescription() };
+        for (Food food : foods)
+        {
+            String[] data =
+                { food.getName(), food.getExpirationDate().format(formatter),
+                    food.getDescription() };
             writer.println(String.join(",", data));
         }
 
@@ -307,18 +351,19 @@ public class FridgeBuddy {
 
     /**
      * Checks if a String is a valid date.
-     * 
-     * @param date
-     *            Represents the expiration date of a food object
+     * @param date Represents the expiration date of a food object
      * @return boolean Represents if the string entered is in the correct format
-     *         and a valid date
+     * and a valid date
      */
-    public boolean isValidDate(String date) {
-        try {
+    public boolean isValidDate(String date)
+    {
+        try
+        {
             LocalDate.parse(date, formatter);
             return true;
         }
-        catch (DateTimeParseException e) {
+        catch (DateTimeParseException e)
+        {
             return false;
         }
     }

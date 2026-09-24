@@ -1,98 +1,138 @@
-// import statements here
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
-/*
- * The following link would help with LocalDate:
- * https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html
- * 
- * Message me (Jacob) if you need help!
- */
-
-// -----------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here.
- * Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
- * 
- * @author INSERT AUTHOR NAME
- * @version Sep 24, 2026
+ * Stores information about a food item.
+ *
+ * @author Zhaojin Gao
+ * @version 09.22.2026
  */
-
 public class Food {
-
-    // ~ Fields ................................................................
     private String name;
     private LocalDate expirationDate;
     private String description;
 
-    // ~ Constructor ...........................................................
     /**
-     * Constructor, creates a Food object with description
-     * 
-     * @param name
-     *            name of food item
-     * @param expirationDate
-     *            date on which food item expires
-     * @param description
-     *            extra information on food item
-     */
-    public Food(String name, LocalDate expirationDate, String description) {
-        this.name = name;
-        this.expirationDate = expirationDate;
-        this.description = description;
-    }
-
-    // ~ Public Methods ........................................................
-
-    /*
-     * Please add javadoc comments for all your methods,
-     * even if they are self-explanatory!
+     * Creates food with a default description.
      *
-     * For javadoc comments, you can use the following tags
-     * 
-     * @param parameter
-     *            Include parameter explanation
-     * @return return value, and explanation if necessary
-     * @throws exceptionName
-     *             if the method throws an exception
+     * @param name the food name
+     * @param expirationDate the expiration date
+     * @throws IllegalArgumentException if name or date is null
      */
+    public Food(String name, LocalDate expirationDate) {
+        this(name, expirationDate, "Missing description");
+    }
 
+    /**
+     * Creates food with a description.
+     *
+     * @param name the food name
+     * @param expirationDate the expiration date
+     * @param description the food description
+     * @throws IllegalArgumentException if name or date is null
+     */
+    public Food(String name, LocalDate expirationDate,
+        String description) {
+        setName(name);
+        setExpirationDate(expirationDate);
+        setDescription(description);
+    }
+
+    /**
+     * Checks whether the food expired before today.
+     *
+     * @return true if the food is expired
+     */
     public boolean isExpired() {
-        
+        return expirationDate.isBefore(LocalDate.now());
     }
 
-
+    /**
+     * Gets the number of days left.
+     *
+     * @return days left, or zero if expired
+     */
     public int getTimeLeft() {
+        LocalDate today = LocalDate.now();
 
+        if (expirationDate.isBefore(today)) {
+            return 0;
+        }
+
+        return (int)ChronoUnit.DAYS.between(today, expirationDate);
     }
 
-
+    /**
+     * Gets the food name.
+     *
+     * @return the name
+     */
     public String getName() {
-
+        return name;
     }
 
+    /**
+     * Changes the food name.
+     *
+     * @param name the new name
+     * @throws IllegalArgumentException if name is null
+     */
+    public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
 
-    public void setName(String CHANGE_PARAM_NAME) {
-
+        if (name.trim().isEmpty()) {
+            this.name = "Unknown food";
+        }
+        else {
+            this.name = name;
+        }
     }
 
-
+    /**
+     * Gets the expiration date.
+     *
+     * @return the expiration date
+     */
     public LocalDate getExpirationDate() {
-
+        return expirationDate;
     }
 
+    /**
+     * Changes the expiration date.
+     *
+     * @param expirationDate the new expiration date
+     * @throws IllegalArgumentException if the date is null
+     */
+    public void setExpirationDate(LocalDate expirationDate) {
+        if (expirationDate == null) {
+            throw new IllegalArgumentException("Date cannot be null.");
+        }
 
-    public void setExpirationDate(LocalDate CHANGE_PARAM_NAME) {
-
+        this.expirationDate = expirationDate;
     }
 
-
+    /**
+     * Gets the description.
+     *
+     * @return the description
+     */
     public String getDescription() {
-
+        return description;
     }
 
-
-    public void setDescription(String CHANGE_PARAM_NAME) {
-
+    /**
+     * Changes the description.
+     *
+     * @param description the new description
+     */
+    public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            this.description = "Missing description";
+        }
+        else {
+            this.description = description;
+        }
     }
 }

@@ -6,25 +6,40 @@
  * Follow it with additional details about its purpose, what abstraction
  * it represents, and how to use it.
  * 
- * @author INSERT AUTHOR NAME
+ * @author Katie Smith (ksmith08)
  * @version Sep 24, 2026
  */
 
-public class Fridge {
+public class Fridge implements Bag<Food>
+{
 
     // ~ Fields ................................................................
-    private Food[] foods;
+    private Food[] food;
     private int size;
+    private int capacity;
 
-    private static final int DEFAULT_SIZE = 10; // feel free to change default
-                                                // size
+    private static final int DEFAULT_SIZE = 10;
 
     // ~ Constructor ...........................................................
     /**
      * Constructor, creates a Fridge object
      */
-    public Fridge() {
-
+    public Fridge() 
+    {
+        this(DEFAULT_SIZE);
+    }
+    
+    /**
+     * Constructor, creates a Fridge object
+     * 
+     * @param  capacity number of items that the bag can hold
+     */
+    @SuppressWarnings("unckecked")
+    public Fridge(int capacity)
+    {
+        this.food = (Food[]) new Object[capacity];
+        this.capacity = capacity;
+        size = 0;
     }
 
     // ~ Public Methods ........................................................
@@ -45,9 +60,118 @@ public class Fridge {
      */
 
 
-    public boolean add(Food CHANGE_PARAMETER_NAME) {
-
+    public boolean add(Food newFood) 
+    {
+        if(size >= capacity)
+        {
+            return false;
+        }
+        food[size] = newFood;
+        size++;
+        return true;
     }
     
-    // the rest of the methods...
+    
+    public Food remove(Food toBeRemoved)
+    {
+        if(size == capacity)
+        {
+            return null;
+        }
+        for(int i = 0; i < size; i++)
+        {
+            if(food[i].equals(toBeRemoved))
+            {
+                food[i] = null;
+                size--;
+                return toBeRemoved;
+            }
+        }
+        return toBeRemoved;
+    }
+    
+    
+    public void clear()
+    {
+        for(int i = 0; i < size; i++)
+        {
+            food[i] = null;
+        }
+    }
+    
+    
+    public boolean contains(String anEntry)
+    {
+        for(int i = 0; i < size; i++)
+        {
+            if(food[i].getName().equals(anEntry))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    public boolean isEmpty()
+    {
+        if(size == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    public int getFrequency(String anEntry)
+    {
+        int count = 0;
+        for(int i = 0; i < size; i++)
+        {
+            if(food[i].getName().equals(anEntry))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    
+    public int getCurrentSize()
+    {
+        return size;
+    }
+    
+    
+    public String toString()
+    {
+        if(size == 0)
+        {
+            return "[]";
+        }
+        
+        String foodString = "[";
+        for(int i = 0; i < size - 1; i++)
+        {
+            foodString += food[i] + ", ";
+        }
+        foodString += food[size - 1] + "]";
+        return foodString;
+    }
+    
+    
+    public Food[] toArray()
+    {
+        Food[] foodArr = new Food[size];
+        for(int i = 0; i < size; i++)
+        {
+            foodArr[i] = food[i];
+        }
+        return foodArr;
+    }
+    
+    
+    
+    
 }
+

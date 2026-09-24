@@ -41,7 +41,7 @@ public class FridgeBuddy
             System.out.println(
                 "Just enter the number of the option you want to choose");
             validOption = fridgeBuddy.scanner.nextLine();
-            while (!"123456".contains(validOption) && validOption.length() != 1)
+            while (validOption.length() != 1 || !"123456".contains(validOption))
             {
                 System.out
                     .println(validOption + " is not a number between 1 and 6");
@@ -108,8 +108,11 @@ public class FridgeBuddy
         }
         while (foods.size() == 0)
         {
-            System.out.println("That foods does not exist, try another");
+            System.out.println("That foods does not exist, try another. Type \"quit\" to quit");
             desiredFood = scanner.nextLine();
+            if(desiredFood.equals("quit")) {
+                return;
+            }
             for (Food food : myFridge.toArray())
             {
                 if (food.getName().equals(desiredFood))
@@ -130,8 +133,8 @@ public class FridgeBuddy
         }
     }
 
-
-    // Prints to the terminals all the foods in the fridge in a nice method
+     /* Prints to the terminal all the foods in the fridge in a pleasing format
+      */
     public void displayFood()
     {
         Food[] foods = myFridge.toArray();
@@ -147,28 +150,28 @@ public class FridgeBuddy
 
 
     // Ask users for name, description, and expiration and adds a corresponding
-    // Food object to Fridge. None of the fields can contians commas.
+    // Food object to Fridge. None of the fields can contain commas.
     public void addFood()
     {
         System.out.println("What should be the name of the food (no commas)");
         String name = scanner.nextLine();
-        while (name.contains(","))
+        while (name.contains(",") || name.isBlank())
         {
-            System.out.println("Foods with commas are not allowed");
+            System.out.println("Names with commas are not allowed");
             name = scanner.nextLine();
         }
         System.out.println("What is the expiration date?");
         String date = scanner.nextLine();
         while (!isValidDate(date))
         {
-            System.out.println("The date was invalid try again");
+            System.out.println("The date was invalid try again. Dates should be written like 1/1/01");
             date = scanner.nextLine();
         }
         System.out.println("What is the description of the food? (no commas)");
         String description = scanner.nextLine();
         while (description.contains(","))
         {
-            System.out.println("Foods with commas are not allowed");
+            System.out.println("Descriptions with commas are not allowed");
             description = scanner.nextLine();
         }
         LocalDate expirationDate = LocalDate.parse(date, formatter);
@@ -226,7 +229,12 @@ public class FridgeBuddy
                             + food.getExpirationDate().format(formatter));
                     System.out.println("Description: " + food.getDescription());
                 }
-                option = Integer.parseInt(scanner.nextLine());
+                try {
+                    option = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                
             }
             chosenFood = foods.get(option);
         }

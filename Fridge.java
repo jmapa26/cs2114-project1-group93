@@ -2,9 +2,7 @@
 
 // -----------------------------------------------------------------------------
 /**
- * Write a one-sentence summary of your class here.
- * Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Stores information about a Fridge (bag) and the food objects insaide of it
  * 
  * @author Katie Smith (ksmith08)
  * @version Sep 24, 2026

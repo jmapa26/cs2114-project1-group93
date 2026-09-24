@@ -57,7 +57,13 @@ public class Fridge implements Bag<Food>
      * if the method throws an exception
      */
 
-
+    /**
+     * Adds a food item to the Fridge
+     * 
+     * @param  newFood the new food item to be added
+     * 
+     * @return boolean whether or not the food was successfully added
+     */
     public boolean add(Food newFood) 
     {
         if(size >= capacity)
@@ -70,9 +76,16 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * removess a speciic food item from the Fridge
+     * 
+     * @param  toBeRemoved the food item to be removed
+     * 
+     * @return Food the food item that was removed from the Fridge
+     */
     public Food remove(Food toBeRemoved)
     {
-        if(size == capacity)
+        if(size == 0)
         {
             return null;
         }
@@ -89,6 +102,9 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * Clears every item out of the Fridge
+     */
     public void clear()
     {
         for(int i = 0; i < size; i++)
@@ -97,7 +113,13 @@ public class Fridge implements Bag<Food>
         }
     }
     
-    
+    /**
+     * Checks if the Fridge contains the inputted Food item
+     * 
+     * @param  String name of the food that is being searched for
+     * 
+     * @return boolean whether or not the Fridge contains that Food
+     */
     public boolean contains(String anEntry)
     {
         for(int i = 0; i < size; i++)
@@ -111,6 +133,11 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * Checks if the Fridge is empty
+     * 
+     * @return boolean whether or not the Fridge is empty
+     */
     public boolean isEmpty()
     {
         if(size == 0)
@@ -121,6 +148,13 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * checks the number of times a certain food is in the Fridge
+     * 
+     * @param  String the name of the Food that is being counted
+     * 
+     * @return int the number of times that Food is in the Fridge
+     */
     public int getFrequency(String anEntry)
     {
         int count = 0;
@@ -135,12 +169,22 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * returns the number of items currently in the Fridge
+     * 
+     * @return int the size of the Fridge
+     */
     public int getCurrentSize()
     {
         return size;
     }
     
     
+    /**
+     * Turns the Foods in the Fridge into one string
+     * 
+     * @return String all of the Food items put together
+     */
     public String toString()
     {
         if(size == 0)
@@ -158,6 +202,11 @@ public class Fridge implements Bag<Food>
     }
     
     
+    /**
+     * Turns the Foods in the Fridge into an array
+     * 
+     * @return Food[] all of the food items in an array
+     */
     public Food[] toArray()
     {
         Food[] foodArr = new Food[size];

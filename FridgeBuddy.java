@@ -146,7 +146,7 @@ public class FridgeBuddy
 
 
     // Ask users for name, description, and expiration and adds a corresponding
-    // Food object to Fridge
+    // Food object to Fridge. None of the fields can contians commas.
     public void addFood()
     {
         System.out.println("What should be the name of the food (no commas)");
@@ -164,8 +164,13 @@ public class FridgeBuddy
             System.out.println("The date was invalid try again");
             date = scanner.nextLine();
         }
-        System.out.println("What is the description of the food?");
+        System.out.println("What is the description of the food? (no commas)");
         String description = scanner.nextLine();
+        while(description.contains(",")) {
+            System.out.println(
+                "Foods with commas are not allowed");
+            description = scanner.nextLine();
+        }
         LocalDate expirationDate = LocalDate.parse(date, formatter);
         Food food = new Food(name, expirationDate, description);
         myFridge.add(food);

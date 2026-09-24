@@ -5,8 +5,7 @@
  * @version Sep 24, 2026
  */
 
-public class Fridge
-    implements Bag<Food>
+public class Fridge implements BagInterface<Food>
 {
 
     private Food[] food;
@@ -30,10 +29,9 @@ public class Fridge
      * @param capacity
      *            number of items that the bag can hold
      */
-    @SuppressWarnings("unckecked")
     public Fridge(int capacity)
     {
-        this.food = (Food[])new Object[capacity];
+        this.food = new Food[capacity];
         this.capacity = capacity;
         size = 0;
     }
@@ -65,22 +63,23 @@ public class Fridge
      *            the food item to be removed
      * @return Food the food item that was removed from the Fridge
      */
-    public Food remove(Food toBeRemoved)
+    public boolean remove(Food toBeRemoved)
     {
         if (size == 0)
         {
-            return null;
+            return false;
         }
         for (int i = 0; i < size; i++)
         {
             if (food[i].equals(toBeRemoved))
             {
-                food[i] = null;
+                food[i] = food[size - 1];
+                food[size - 1] = null;
                 size--;
-                return toBeRemoved;
+                return true;
             }
         }
-        return toBeRemoved;
+        return false;
     }
 
 
@@ -99,7 +98,7 @@ public class Fridge
     /**
      * Checks if the Fridge contains the inputted Food item
      * 
-     * @param String
+     * @param anEntry
      *            name of the food that is being searched for
      * @return boolean whether or not the Fridge contains that Food
      */
@@ -134,7 +133,7 @@ public class Fridge
     /**
      * checks the number of times a certain food is in the Fridge
      * 
-     * @param String
+     * @param anEntry
      *            the name of the Food that is being counted
      * @return int the number of times that Food is in the Fridge
      */
@@ -201,3 +200,4 @@ public class Fridge
     }
 
 }
+

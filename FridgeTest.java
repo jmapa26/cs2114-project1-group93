@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 /**
  * Tests all the methods in class Fridge
  * 
@@ -15,16 +16,16 @@ public class FridgeTest
         fridge1 = new Fridge();
         fridge2 = new Fridge(5);
 
-        Food apple = new Food("Apple", today.plusDays(2));
-        Food sandwich = new Food("Sandwich", today.plusDays(3));
-        Food milk = new Food("Milk", today.plusDays(1));
+        Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
+        Food milk = new Food("Milk", LocalDate.of(2026, 10, 31));
 
         fridge1.add(apple);
         fridge2.add(sandwich);
         fridge1.add(milk);
 
-        Food tomato = new Food("Tomato", today.plusDays(3));
-        Food butter = new Food("Butter", today.plusDays(1));
+        Food tomato = new Food("Tomato", LocalDate.of(2026, 10, 31));
+        Food butter = new Food("Butter", LocalDate.of(2026, 10, 31));
 
         fridge1.add(apple);
         fridge2.add(sandwich);
@@ -39,7 +40,7 @@ public class FridgeTest
      */
     public void testAdd()
     {
-        Food juice = new Food("Juice", today.plusDays(2));
+        Food juice = new Food("Juice", LocalDate.of(2026, 10, 31));
         assertTrue(fridge1.add(juice));
         assertEquals(4, fridge1.getCurrentSize());
 
@@ -53,9 +54,11 @@ public class FridgeTest
     public void testRemove()
     {
         Fridge empty = new Fridge();
-        assertNull(empty.remove(apple));
+        Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
+        assertFalse(empty.remove(apple));
 
-        assertEquals(sandwich, fridge1.remove(sandwich));
+        assertTrue(fridge1.remove(sandwich));
     }
 
 
@@ -98,7 +101,7 @@ public class FridgeTest
     {
         assertEquals(1, fridge2.getFrequency("Apple"));
 
-        Food sandwich = new Food("Sandwich", today.plusDays(3));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
         fridge2.add(sandwich);
         fridge2.add(sandwich);
 
@@ -133,9 +136,9 @@ public class FridgeTest
      */
     public void testToArray()
     {
-        Food apple = new Food("Apple", today.plusDays(2));
-        Food sandwich = new Food("Sandwich", today.plusDays(3));
-        Food milk = new Food("Milk", today.plusDays(1));
+        Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
+        Food milk = new Food("Milk", LocalDate.of(2026, 10, 31));
 
         Food[] arr = { apple, sandwich, milk };
         assertEquals(arr, fridge1.toArray());

@@ -5,7 +5,7 @@
  * @version Sep 24, 2026
  */
 
-public class Fridge implements BagInterface<Food>
+public class Fridge
 {
 
     private Food[] food;
@@ -92,6 +92,7 @@ public class Fridge implements BagInterface<Food>
         {
             food[i] = null;
         }
+        size = 0;
     }
 
 
@@ -161,6 +162,34 @@ public class Fridge implements BagInterface<Food>
         return size;
     }
 
+    
+    
+    /**
+     * gets all of the expired foods in the Fridge
+     * 
+     * @return Food[] an array of all the expired food
+     */
+    public Food[] getExpiredFood()
+    {
+        int count = 0;
+        for(int i = 0; i < size; i++)
+        {
+            if(food[i].isExpired())
+            {
+                count++;
+            }
+        }
+        Food[] expiredFood = new Food[count];
+        int index = 0;
+        for(int i = 0; i < size; i++)
+        {
+            if(food[i].isExpired())
+            {
+                expiredFood[index] = food[i];
+            }
+        }
+        return expiredFood;
+    }
 
     /**
      * Turns the Foods in the Fridge into one string

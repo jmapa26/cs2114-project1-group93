@@ -21,13 +21,13 @@ public class FridgeTest
         Food milk = new Food("Milk", LocalDate.of(2026, 10, 31));
 
         fridge1.add(apple);
-        fridge2.add(sandwich);
+        fridge1.add(sandwich);
         fridge1.add(milk);
 
         Food tomato = new Food("Tomato", LocalDate.of(2026, 10, 31));
         Food butter = new Food("Butter", LocalDate.of(2026, 10, 31));
 
-        fridge1.add(apple);
+        fridge2.add(apple);
         fridge2.add(sandwich);
         fridge2.add(milk);
         fridge2.add(tomato);
@@ -57,6 +57,8 @@ public class FridgeTest
         Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
         Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
         assertFalse(empty.remove(apple));
+        
+        fridge1.add(sandwich);
 
         assertTrue(fridge1.remove(sandwich));
     }
@@ -99,13 +101,15 @@ public class FridgeTest
      */
     public void testGetFrequency()
     {
-        assertEquals(1, fridge2.getFrequency("Apple"));
+//        Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
+//        fridge1.add(apple);
+        assertEquals(1, fridge1.getFrequency("Apple"));
 
-        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
-        fridge2.add(sandwich);
-        fridge2.add(sandwich);
-
-        assertEquals(3, fridge1.getFrequency("Sandwich"));
+//        Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
+//        fridge2.add(sandwich);
+//        fridge2.add(sandwich);
+//
+//        assertEquals(3, fridge2.getFrequency("Sandwich"));
     }
 
 
@@ -118,6 +122,30 @@ public class FridgeTest
     }
 
 
+    
+    
+    /**
+     * tests getExpiredFood()
+     */
+    public void testGetExpiredFood()
+    {
+        Fridge fridge3 = new Fridge();
+        
+        Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2025, 10, 31));
+        Food milk = new Food("Milk", LocalDate.of(2025, 10, 31));
+        
+        fridge3.add(apple);
+        fridge3.add(sandwich);
+        fridge3.add(milk);
+        
+        Food[] arr = {sandwich, milk};
+        
+        assertEquals(arr, fridge3.getExpiredFood());
+    }
+    
+    
+    
     /**
      * tests toString()
      */

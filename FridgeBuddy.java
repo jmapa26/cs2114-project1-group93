@@ -29,8 +29,7 @@ public class FridgeBuddy
         FridgeBuddy fridgeBuddy = new FridgeBuddy();
         fridgeBuddy.readFoodFile();
         boolean quit = false;
-        while (!quit)
-        {
+        while (!quit) {
             String validOption = "";
             System.out.println("What do you want to do: ");
             System.out.println("Option 1, look for a food");
@@ -42,7 +41,7 @@ public class FridgeBuddy
             System.out.println(
                 "Just enter the number of the option you want to choose");
             validOption = fridgeBuddy.scanner.nextLine();
-            while (!"123456".contains(validOption) && validOption.length() == 1)
+            while (!"123456".contains(validOption) && validOption.length() != 1)
             {
                 System.out
                     .println(validOption + " is not a number between 1 and 6");

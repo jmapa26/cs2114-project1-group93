@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 // -----------------------------------------------------------------------------
 /**
  * Write a one-sentence summary of your class here. Follow it with additional
@@ -61,7 +62,6 @@ public class FridgeBuddy
     private Fridge myFridge;
     private static Final String FOOD_FILE;
     private Scanner scanner;
-
 
     // ~ Public Methods ........................................................
 
@@ -227,21 +227,29 @@ public class FridgeBuddy
     {
         Food[] foods = myFridge.toArray();
         PrintWriter writer = new PrintWriter(new FileWriter(FOOD_FILE, false));
-        for(Food food: foods) {
-            String[] data = {food.getName(), food.getExpirationDate().format(formatter), food.getDescription()};
+        for (Food food : foods)
+        {
+            String[] data =
+                { food.getName(), food.getExpirationDate().format(formatter),
+                    food.getDescription() };
             writer.println(String.join(",", data));
-            }
+        }
 
         writer.close();
-        }
     }
-    
-    public boolean isValidDate(String date) {
-        try {
+
+    }
+
+    public boolean isValidDate(String date)
+    {
+        try
+        {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
             LocalDate.parse(input, formatter);
             return true;
-        } catch (DateTimeParseException e) {
+        }
+        catch (DateTimeParseException e)
+        {
             return false;
         }
     }

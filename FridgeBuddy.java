@@ -265,7 +265,7 @@ public class FridgeBuddy {
             String line = fileScanner.nextLine();
             String[] data = line.split(",", -1);
 
-            if (data[0].strip().equals("")) {
+            if (data[0].equals("")) {
                 continue;
             }
             if (!isValidDate(data[1])) {

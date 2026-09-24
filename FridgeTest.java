@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import static org.junit.Assert.assertArrayEquals;
 /**
  * Tests all the methods in class Fridge
  * 
@@ -61,6 +62,9 @@ public class FridgeTest
         fridge1.add(sandwich);
 
         assertTrue(fridge1.remove(sandwich));
+        
+        Food cantaloupe = new Food("Cantaloupe", LocalDate.of(2026, 10, 31));
+        assertFalse(fridge1.remove(cantaloupe));
     }
 
 
@@ -132,8 +136,8 @@ public class FridgeTest
         Fridge fridge3 = new Fridge();
         
         Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
-        Food sandwich = new Food("Sandwich", LocalDate.of(2025, 10, 31));
-        Food milk = new Food("Milk", LocalDate.of(2025, 10, 31));
+        Food sandwich = new Food("Sandwich", LocalDate.of(2025, 1, 3));
+        Food milk = new Food("Milk", LocalDate.of(2025, 6, 17));
         
         fridge3.add(apple);
         fridge3.add(sandwich);
@@ -141,7 +145,7 @@ public class FridgeTest
         
         Food[] arr = {sandwich, milk};
         
-        assertEquals(arr, fridge3.getExpiredFood());
+        assertArrayEquals(arr, fridge3.getExpiredFood());
     }
     
     
@@ -164,12 +168,18 @@ public class FridgeTest
      */
     public void testToArray()
     {
+        Fridge fridge4 = new Fridge();
+        
         Food apple = new Food("Apple", LocalDate.of(2026, 10, 31));
         Food sandwich = new Food("Sandwich", LocalDate.of(2026, 10, 31));
         Food milk = new Food("Milk", LocalDate.of(2026, 10, 31));
+        
+        fridge4.add(apple);
+        fridge4.add(sandwich);
+        fridge4.add(milk);
 
-        Food[] arr = { apple, sandwich, milk };
-        assertEquals(arr, fridge1.toArray());
+        Food[] arr = {apple, sandwich, milk};
+        assertArrayEquals(arr, fridge4.toArray());
     }
 
 }

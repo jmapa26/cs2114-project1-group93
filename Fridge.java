@@ -179,6 +179,7 @@ public class Fridge
                 count++;
             }
         }
+        
         Food[] expiredFood = new Food[count];
         int index = 0;
         for(int i = 0; i < size; i++)
@@ -186,7 +187,9 @@ public class Fridge
             if(food[i].isExpired())
             {
                 expiredFood[index] = food[i];
+                index++;
             }
+  
         }
         return expiredFood;
     }
@@ -206,9 +209,9 @@ public class Fridge
         String foodString = "[";
         for (int i = 0; i < size - 1; i++)
         {
-            foodString += food[i] + ", ";
+            foodString += food[i].getName() + ", ";
         }
-        foodString += food[size - 1] + "]";
+        foodString += food[size - 1].getName() + "]";
         return foodString;
     }
 
